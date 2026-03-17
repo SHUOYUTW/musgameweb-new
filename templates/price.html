@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ game_name }} - 價目表 | 姆斯商店</title>
+    <style>
+        :root {
+            --primary-color: #2ecc71;
+            --price-color: #e67e22;
+            --bg-light: #f4f7f6;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            font-family: "Microsoft JhengHei", sans-serif;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* 遊戲 Banner (來自 game_info) */
+        .banner {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .banner-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 30px 20px;
+            color: white;
+        }
+
+        .content { padding: 25px; }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .back-btn { text-decoration: none; color: var(--primary-color); font-weight: bold; }
+
+        /* 表格樣式 */
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 12px; border-bottom: 2px solid #eee; color: #777; font-size: 14px; }
+        td { padding: 15px 12px; border-bottom: 1px solid #f5f5f5; }
+
+        .item-cell { display: flex; align-items: center; }
+        
+        /* 品項小圖 (來自 gamedata) */
+        .item-icon {
+            width: 45px; height: 45px;
+            border-radius: 8px;
+            margin-right: 15px;
+            object-fit: cover;
+            border: 1px solid #eee;
+        }
+
+        .price-text {
+            color: var(--price-color);
+            font-weight: bold;
+            font-size: 1.2em;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="banner" style="background-image: url('{{ game_info.image_url if game_info else 'https://via.placeholder.com/800x250' }}');">
+        <div class="banner-overlay">
+            <h1 style="margin: 0;">{{ game_name }}</h1>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="header">
+            <span style="color: #888;">選擇儲值方案</span>
+            <a href="/" class="back-btn">❮ 返回列表</a>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>品項</th>
+                    <th style="text-align: right;">優惠價格</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in items %}
+                <tr>
+                    <td>
+                        <div class="item-cell">
+                            <img src="{{ row.item_image or 'https://via.placeholder.com/45' }}" class="item-icon">
+                            <span style="font-weight: 500;">{{ row.item_name }}</span>
+                        </div>
+                    </td>
+                    <td class="price-text">${{ "{:,.0f}".format(row.price) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
