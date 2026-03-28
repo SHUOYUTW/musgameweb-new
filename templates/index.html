@@ -6,32 +6,72 @@
     <link rel="icon" href="{{ url_for('static', filename='images/LOGO.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
-        /* 看板容器背景改為米白色 */
-        .carousel-container { position: relative; width: 100%; height: 350px; overflow: hidden; background: #F5F5DC; }
-        
-        .carousel-slide { 
-            position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1s; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            color: #333; text-align: center; padding: 0 20px; 
+        /* 看板容器：改為米白色，取消輪換相關設定 */
+        .header-banner { 
+            position: relative; 
+            width: 100%; 
+            height: 350px; 
+            background: #F5F5DC; /* 米白色 */
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+            padding: 0 20px;
         }
-        .carousel-slide.active { opacity: 1; }
         
-        .slide-bg { position: absolute; width: 100%; height: 100%; object-fit: cover; z-index: -1; filter: brightness(0.9); }
-        
-        .search-overlay { position: absolute; bottom: 40px; width: 100%; z-index: 10; text-align: center; }
+        /* 標題與內文顏色改為深色以配合米色背景 */
+        .header-banner h1 { 
+            font-size: 2.8rem; 
+            color: #333; 
+            margin: 0 0 15px 0; 
+        }
+        .header-banner p { 
+            font-size: 1.3rem; 
+            color: #555; 
+            margin: 0; 
+        }
+
+        /* 搜尋框疊加 */
+        .search-overlay { 
+            margin-top: 30px; 
+            width: 100%; 
+            text-align: center; 
+        }
         .search-overlay input { 
-            padding: 12px 25px; border-radius: 25px; border: none; width: 60%; 
-            max-width: 500px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); outline: none; 
+            padding: 12px 25px; 
+            border-radius: 25px; 
+            border: 1px solid #ddd; 
+            width: 60%; 
+            max-width: 500px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+            outline: none; 
         }
+
+        /* 遊戲網格 */
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+            gap: 25px; 
+            padding: 40px; 
+        }
+        .game-card { 
+            text-decoration: none; 
+            color: black; 
+            text-align: center; 
+            border: 1px solid #eee; 
+            border-radius: 15px; 
+            overflow: hidden; 
+            background: white; 
+            transition: 0.3s; 
+        }
+        .game-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
     </style>
 </head>
-<body>
-    <header class="carousel-container">
-        <div class="carousel-slide active">
-            <img src="{{ url_for('static', filename='images/banner1.webp') }}" class="slide-bg">
-            <h1 style="font-size: 2.8rem; margin-bottom: 10px;">姆斯官方Line:@musmus</h1>
-            <p style="font-size: 1.3rem;">如果以下價目表沒有遊戲，歡迎洽詢客服</p>
-        </div>
+<body style="background: #fafafa; margin: 0;">
+    <header class="header-banner">
+        <h1>姆斯官方Line:@musmus</h1>
+        <p>如果以下價目表沒有遊戲，歡迎洽詢客服</p>
 
         <div class="search-overlay">
             <form action="/" method="get">
@@ -40,28 +80,15 @@
         </div>
     </header>
 
-    <div class="grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 25px; padding: 40px;">
+    <main class="grid">
         {% for game in games %}
-        <a href="/p/{{ game.id }}" class="game-card" style="text-decoration: none; color: black; text-align: center; border: 1px solid #eee; border-radius: 15px; overflow: hidden; background: white; transition: 0.3s;">
+        <a href="/p/{{ game.id }}" class="game-card">
             <img src="{{ game.image_url or 'https://via.placeholder.com/200x150' }}" style="width: 100%; height: 160px; object-fit: cover;">
             <div style="padding: 15px;">
                 <h3 style="margin: 0;">{{ game.game_name }}</h3>
             </div>
         </a>
         {% endfor %}
-    </div>
-
-    <script>
-        let cur = 0;
-        const slides = document.querySelectorAll('.carousel-slide');
-        // 如果只有一張看板，可不執行輪播
-        if (slides.length > 1) {
-            setInterval(() => {
-                slides[cur].classList.remove('active');
-                cur = (cur + 1) % slides.length;
-                slides[cur].classList.add('active');
-            }, 5000);
-        }
-    </script>
+    </main>
 </body>
 </html>
