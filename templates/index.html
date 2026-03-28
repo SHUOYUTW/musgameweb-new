@@ -6,25 +6,31 @@
     <link rel="icon" href="{{ url_for('static', filename='images/LOGO.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
-        .carousel-container { position: relative; width: 100%; height: 350px; overflow: hidden; background: #white; }
-        .carousel-slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1s; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; padding: 0 20px; }
+        /* 看板容器背景改為米白色 */
+        .carousel-container { position: relative; width: 100%; height: 350px; overflow: hidden; background: #F5F5DC; }
+        
+        .carousel-slide { 
+            position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1s; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            color: #333; text-align: center; padding: 0 20px; 
+        }
         .carousel-slide.active { opacity: 1; }
-        .slide-bg { position: absolute; width: 100%; height: 100%; object-fit: cover; z-index: -1; filter: brightness(0.65); }
+        
+        .slide-bg { position: absolute; width: 100%; height: 100%; object-fit: cover; z-index: -1; filter: brightness(0.9); }
+        
         .search-overlay { position: absolute; bottom: 40px; width: 100%; z-index: 10; text-align: center; }
-        .search-overlay input { padding: 12px 25px; border-radius: 25px; border: none; width: 60%; max-width: 500px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); outline: none; }
+        .search-overlay input { 
+            padding: 12px 25px; border-radius: 25px; border: none; width: 60%; 
+            max-width: 500px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); outline: none; 
+        }
     </style>
 </head>
 <body>
     <header class="carousel-container">
         <div class="carousel-slide active">
             <img src="{{ url_for('static', filename='images/banner1.webp') }}" class="slide-bg">
-            <h1 style="font-size: 3rem; margin-bottom: 10px;">TikTok 限時優惠</h1>
-            <p style="font-size: 1.5rem;">全品項 9 折起，歡迎洽詢</p>
-        </div>
-        <div class="carousel-slide">
-            <img src="{{ url_for('static', filename='images/banner2.webp') }}" class="slide-bg">
-            <h1 style="font-size: 2.5rem; margin-bottom: 10px;">姆斯官方Line:@musmus</h1>
-            <p style="font-size: 1.2rem;">所有遊戲皆有，如果以下價目表沒有，歡迎洽詢客服</p>
+            <h1 style="font-size: 2.8rem; margin-bottom: 10px;">姆斯官方Line:@musmus</h1>
+            <p style="font-size: 1.3rem;">如果以下價目表沒有遊戲，歡迎洽詢客服</p>
         </div>
 
         <div class="search-overlay">
@@ -48,11 +54,14 @@
     <script>
         let cur = 0;
         const slides = document.querySelectorAll('.carousel-slide');
-        setInterval(() => {
-            slides[cur].classList.remove('active');
-            cur = (cur + 1) % slides.length;
-            slides[cur].classList.add('active');
-        }, 5000);
+        // 如果只有一張看板，可不執行輪播
+        if (slides.length > 1) {
+            setInterval(() => {
+                slides[cur].classList.remove('active');
+                cur = (cur + 1) % slides.length;
+                slides[cur].classList.add('active');
+            }, 5000);
+        }
     </script>
 </body>
 </html>
