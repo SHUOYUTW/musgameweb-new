@@ -9,20 +9,26 @@
         .price-container { max-width: 800px; margin: 40px auto; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow: hidden; }
         .banner { height: 250px; background-size: cover; background-position: center; display: flex; align-items: flex-end; }
         .banner h1 { color: white; background: linear-gradient(transparent, rgba(0,0,0,0.8)); width: 100%; margin: 0; padding: 30px 25px; }
+        
         .price-list { list-style: none; padding: 0; margin: 0; }
-        .price-item { display: flex; justify-content: space-between; align-items: center; padding: 20px 25px; border-bottom: 1px solid #f8f8f8; }
+        .price-item { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 22px 30px; 
+            border-bottom: 1px solid #f8f8f8; 
+        }
         .item-name { font-size: 1.15rem; color: #333; font-weight: 500; }
-        .item-price { color: #e67e22; font-weight: bold; font-size: 1.3rem; }
+        .item-price { color: #e67e22; font-weight: bold; font-size: 1.35rem; }
     </style>
 </head>
-<body style="background: #f4f7f6;">
-    <div class="price-container">
+<body style="background: #F5F5DC;"> <div class="price-container">
         <div class="banner" style="background-image: url('{{ game_info.image_url or 'https://via.placeholder.com/800x250' }}');">
             <h1>{{ game_name }}</h1>
         </div>
 
         <div style="padding: 30px;">
-            <a href="/" style="text-decoration: none; color: #2ecc71; font-weight: bold; font-size: 1.1rem;">❮ 返回遊戲列表</a>
+            <a href="/" style="text-decoration: none; color: #333; font-weight: bold;">❮ 返回首頁</a>
             
             <div style="margin-top: 30px;">
                 <ul class="price-list">
